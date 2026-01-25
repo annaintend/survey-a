@@ -131,7 +131,7 @@ export function AgeScreen({ onContinue, onBack, currentStep, totalSteps, initial
       </div>
 
       {/* Bottom Button Section */}
-      <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#f2f2f7] pb-3 pt-4 px-6">
+      <div className="absolute bottom-0 left-0 right-0 bg-[#f2f2f7] pb-3 pt-4 px-6">
         {/* Support Text Card */}
         {selectedRange && (
           <motion.div

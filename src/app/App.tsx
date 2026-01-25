@@ -466,9 +466,9 @@ export default function App() {
       return;
     }
     
-    // Special case: If we're on question 7 (index 6), go back to first-30-days screen
+    // Special case: If we're on question 7 (index 6), go back to weekly-feedback screen
     if (currentQuestionIndex === 6) {
-      setQuizState('first-30-days');
+      setQuizState('weekly-feedback');
       return;
     }
     
@@ -540,205 +540,14 @@ export default function App() {
     };
   };
 
+  // Determine if current state is a full-viewport gradient screen
+  const isFullViewportScreen = ['welcome', 'greeting-loading', 'loading', 'analysis-complete', 'goals', 'plan-built', 'paywall', 'first-30-days', 'weekly-feedback', 'intermediate'].includes(quizState);
+
   return (
-    <div className="min-h-screen bg-[#f2f2f7] flex flex-col max-w-[430px] mx-auto relative">
+    <div className="min-h-screen bg-[#f2f2f7]">
+      {/* Screens with full-viewport gradients - rendered outside wrapper */}
       {quizState === 'welcome' && (
         <WelcomeScreen key="welcome" onStart={handleStart} />
-      )}
-
-      {quizState === 'quiz' && (
-        <>
-          {/* Header */}
-          <div className="bg-[#f2f2f7] sticky top-0 z-10">
-            {/* Progress Bar Section */}
-            <div className="h-[44px] relative flex items-center justify-center px-4">
-              <button
-                onClick={handleBack}
-                className="absolute left-4 bg-white rounded-full w-[34px] h-[34px] flex items-center justify-center"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <div className="flex items-center justify-center">
-                <ProgressBar
-                  current={progressSteps.current}
-                  total={progressSteps.total}
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Question Content */}
-          <div className="flex-1 pb-32 px-6">
-            {/* Question Headline */}
-            <div className="py-3">
-              <h1 className="text-[24px] font-semibold leading-[120%] tracking-[0.4px] text-black mb-4">
-                {getQuestionParts(currentQuestion.question, currentQuestion.id).main}{' '}
-                <span className="text-[#0a84ff]">
-                  {getQuestionParts(currentQuestion.question, currentQuestion.id).highlight}
-                </span>
-              </h1>
-            </div>
-
-            <AnimatePresence mode="wait">
-              <QuizQuestion
-                key={currentQuestion.id}
-                question={currentQuestion.question}
-                options={currentQuestion.options}
-                selectedOption={selectedOption}
-                onSelectOption={handleSelectOption}
-                questionNumber={currentQuestionIndex + 1}
-                totalQuestions={quizQuestions.length}
-                isMultiSelect={currentQuestion.isMultiSelect}
-              />
-            </AnimatePresence>
-          </div>
-
-          {/* Bottom Button Section */}
-          <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#f2f2f7] pb-2 pt-4 px-6 space-y-3">
-            {/* Support Text Card - appears above Next button */}
-            <AnimatePresence mode="wait">
-              {(() => {
-                const lastSelectedOption = getLastSelectedOption();
-                return lastSelectedOption ? (
-                  <motion.div
-                    key={lastSelectedOption.value}
-                    initial={{ opacity: 0, y: -5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -5 }}
-                    transition={{ duration: 0.15 }}
-                  >
-                    <div className="bg-white rounded-[24px] p-4">
-                      <div className="flex flex-col gap-1">
-                        {/* Title with checkmark */}
-                        <p className="text-[16px] font-medium leading-[22px] tracking-[-0.43px] text-[#2cbc50]">
-                          {getSupportTitle(lastSelectedOption.supportText)}
-                        </p>
-                        {/* Support text */}
-                        <p className="text-[16px] font-normal leading-[22px] tracking-[-0.43px] text-black">
-                          {lastSelectedOption.supportText}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-                ) : null;
-              })()}
-            </AnimatePresence>
-
-            {/* Next Button */}
-            <button
-              onClick={handleNext}
-              disabled={!hasSelection()}
-              className={`w-full py-4 rounded-[20px] transition-colors text-[17px] font-medium leading-[22px] tracking-[-0.43px] ${
-                hasSelection()
-                  ? 'bg-[#f14e58] text-white'
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              }`}
-            >
-              Next
-            </button>
-          </div>
-        </>
-      )}
-
-      {quizState === 'intermediate' && (
-        <IntermediateScreen
-          key="intermediate"
-          onContinue={() => {
-            setQuizState('quiz');
-            setCurrentQuestionIndex(3);
-            setSelectedOption(quizQuestions[3].isMultiSelect ? [] : null);
-          }}
-          onBack={handleIntermediateBack}
-          currentStep={progressSteps.current}
-          totalSteps={progressSteps.total}
-        />
-      )}
-
-      {quizState === 'weekly-pattern' && (
-        <WeeklyPatternQuestion
-          key="weekly-pattern"
-          onContinue={() => {
-            setQuizState('weekly-feedback');
-          }}
-          onBack={() => {
-            setQuizState('quiz');
-            setCurrentQuestionIndex(5);
-            const prevAnswer = answers[quizQuestions[5].id];
-            setSelectedOption(prevAnswer || (quizQuestions[5].isMultiSelect ? [] : null));
-          }}
-          onAnswer={setWeeklyPatternAnswers}
-          currentStep={progressSteps.current}
-          totalSteps={progressSteps.total}
-        />
-      )}
-
-      {quizState === 'weekly-feedback' && weeklyPatternAnswers && (
-        <WeeklyFeedbackScreen
-          key="weekly-feedback"
-          onContinue={() => {
-            setQuizState('first-30-days');
-          }}
-          onBack={() => {
-            setQuizState('weekly-pattern');
-          }}
-          frequency={weeklyPatternAnswers.frequency}
-          portionSize={weeklyPatternAnswers.portion}
-          currentStep={progressSteps.current}
-          totalSteps={progressSteps.total}
-        />
-      )}
-
-      {quizState === 'first-30-days' && weeklyPatternAnswers && (
-        <First30DaysScreen
-          key="first-30-days"
-          onContinue={() => {
-            setQuizState('quiz');
-            setCurrentQuestionIndex(6);
-            setSelectedOption(quizQuestions[6].isMultiSelect ? [] : null);
-          }}
-          onBack={() => {
-            setQuizState('weekly-feedback');
-          }}
-          currentStep={progressSteps.current}
-          totalSteps={progressSteps.total}
-          frequency={weeklyPatternAnswers.frequency}
-          portionSize={weeklyPatternAnswers.portion}
-        />
-      )}
-
-      {quizState === 'age' && (
-        <AgeScreen
-          key="age"
-          onContinue={(age) => {
-            setSelectedAge(age);
-            setQuizState('personal-info');
-          }}
-          onBack={() => {
-            setQuizState('quiz');
-            setCurrentQuestionIndex(quizQuestions.length - 1);
-            const prevAnswer = answers[quizQuestions[quizQuestions.length - 1].id];
-            setSelectedOption(prevAnswer || (quizQuestions[quizQuestions.length - 1].isMultiSelect ? [] : null));
-          }}
-          currentStep={progressSteps.current}
-          totalSteps={progressSteps.total}
-          initialAge={selectedAge || undefined}
-        />
-      )}
-
-      {quizState === 'personal-info' && (
-        <PersonalInfoScreen
-          key="personal-info"
-          onContinue={(data) => {
-            setPersonalInfo(data);
-            setQuizState('greeting-loading');
-          }}
-          onBack={() => {
-            setQuizState('age');
-          }}
-          currentStep={progressSteps.current}
-          totalSteps={progressSteps.total}
-          initialData={personalInfo || undefined}
-        />
       )}
 
       {quizState === 'greeting-loading' && personalInfo && (
@@ -784,6 +593,85 @@ export default function App() {
         />
       )}
 
+      {quizState === 'plan-built' && personalInfo && (
+        <PlanBuiltScreen
+          key="plan-built"
+          onComplete={() => {
+            setQuizState('paywall');
+          }}
+          onBack={() => {
+            setQuizState('potential-balance');
+          }}
+          firstName={personalInfo.firstName}
+        />
+      )}
+
+      {quizState === 'paywall' && (
+        <PaywallScreen
+          key="paywall"
+          onContinue={() => {
+            setQuizState('first-30-days');
+          }}
+          onBack={() => {
+            setQuizState('plan-built');
+          }}
+        />
+      )}
+
+      {quizState === 'first-30-days' && weeklyPatternAnswers && (
+        <First30DaysScreen
+          key="first-30-days"
+          onContinue={() => {
+            // Quiz complete
+            console.log('Quiz completed!');
+          }}
+          onBack={() => {
+            setQuizState('paywall');
+          }}
+          currentStep={progressSteps.current}
+          totalSteps={progressSteps.total}
+          frequency={weeklyPatternAnswers.frequency}
+          portionSize={weeklyPatternAnswers.portion}
+        />
+      )}
+
+      {quizState === 'weekly-feedback' && weeklyPatternAnswers && (
+        <WeeklyFeedbackScreen
+          key="weekly-feedback"
+          onContinue={() => {
+            setQuizState('quiz');
+            setCurrentQuestionIndex(6);
+            setSelectedOption(quizQuestions[6].isMultiSelect ? [] : null);
+          }}
+          onBack={() => {
+            setQuizState('weekly-pattern');
+          }}
+          frequency={weeklyPatternAnswers.frequency}
+          portionSize={weeklyPatternAnswers.portion}
+          currentStep={progressSteps.current}
+          totalSteps={progressSteps.total}
+        />
+      )}
+
+      {quizState === 'intermediate' && (
+        <IntermediateScreen
+          key="intermediate"
+          onContinue={() => {
+            setQuizState('quiz');
+            setCurrentQuestionIndex(3);
+            setSelectedOption(quizQuestions[3].isMultiSelect ? [] : null);
+          }}
+          onBack={() => {
+            setQuizState('quiz');
+            setCurrentQuestionIndex(2);
+            const prevAnswer = answers[quizQuestions[2].id];
+            setSelectedOption(prevAnswer || (quizQuestions[2].isMultiSelect ? [] : null));
+          }}
+          currentStep={progressSteps.current}
+          totalSteps={progressSteps.total}
+        />
+      )}
+
       {quizState === 'current-balance' && (
         <CurrentBalanceScreen
           key="current-balance"
@@ -810,27 +698,158 @@ export default function App() {
         />
       )}
 
-      {quizState === 'plan-built' && personalInfo && (
-        <PlanBuiltScreen
-          key="plan-built"
-          onComplete={() => {
-            setQuizState('paywall');
-          }}
-          onBack={() => {
-            setQuizState('greeting-loading');
-          }}
-          firstName={personalInfo.firstName}
-        />
-      )}
+      {/* Content Wrapper - 430px max width for quiz and form screens */}
+      {!['welcome', 'greeting-loading', 'loading', 'analysis-complete', 'goals', 'plan-built', 'paywall', 'first-30-days', 'weekly-feedback', 'intermediate', 'current-balance', 'potential-balance'].includes(quizState) && (
+        <div className="fixed inset-0 bg-[#f2f2f7] flex items-center justify-center">
+          <div className="w-full max-w-[430px] h-full flex flex-col relative bg-[#f2f2f7]">
+            {quizState === 'quiz' && (
+              <>
+                {/* Header */}
+                <div className="bg-[#f2f2f7] sticky top-0 z-10">
+                  {/* Progress Bar Section */}
+                  <div className="h-[44px] relative flex items-center justify-center px-4">
+                    <button
+                      onClick={handleBack}
+                      className="absolute left-4 bg-white rounded-full w-[34px] h-[34px] flex items-center justify-center"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <div className="flex items-center justify-center">
+                      <ProgressBar
+                        current={progressSteps.current}
+                        total={progressSteps.total}
+                      />
+                    </div>
+                  </div>
+                </div>
 
-      {quizState === 'paywall' && (
-        <PaywallScreen
-          key="paywall"
-          onClose={() => {
-            setQuizState('plan-built');
-          }}
-          onStartTrial={handleRestart}
-        />
+                {/* Question Content */}
+                <div className="flex-1 pb-32 px-6">
+                  {/* Question Headline */}
+                  <div className="py-3">
+                    <h1 className="text-[24px] font-semibold leading-[120%] tracking-[0.4px] text-black mb-4">
+                      {getQuestionParts(currentQuestion.question, currentQuestion.id).main}{' '}
+                      <span className="text-[#0a84ff]">
+                        {getQuestionParts(currentQuestion.question, currentQuestion.id).highlight}
+                      </span>
+                    </h1>
+                  </div>
+
+                  <AnimatePresence mode="wait">
+                    <QuizQuestion
+                      key={currentQuestion.id}
+                      question={currentQuestion.question}
+                      options={currentQuestion.options}
+                      selectedOption={selectedOption}
+                      onSelectOption={handleSelectOption}
+                      questionNumber={currentQuestionIndex + 1}
+                      totalQuestions={quizQuestions.length}
+                      isMultiSelect={currentQuestion.isMultiSelect}
+                    />
+                  </AnimatePresence>
+                </div>
+
+                {/* Bottom Button Section */}
+                <div className="absolute bottom-0 left-0 right-0 bg-[#f2f2f7] pb-2 pt-4 px-6 space-y-3">
+                  {/* Support Text Card - appears above Next button */}
+                  <AnimatePresence mode="wait">
+                    {(() => {
+                      const lastSelectedOption = getLastSelectedOption();
+                      return lastSelectedOption ? (
+                        <motion.div
+                          key={lastSelectedOption.value}
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -5 }}
+                          transition={{ duration: 0.15 }}
+                        >
+                          <div className="bg-white rounded-[24px] p-4">
+                            <div className="flex flex-col gap-1">
+                              {/* Title with checkmark */}
+                              <p className="text-[16px] font-medium leading-[22px] tracking-[-0.43px] text-[#2cbc50]">
+                                {getSupportTitle(lastSelectedOption.supportText)}
+                              </p>
+                              {/* Support text */}
+                              <p className="text-[16px] font-normal leading-[22px] tracking-[-0.43px] text-black">
+                                {lastSelectedOption.supportText}
+                              </p>
+                            </div>
+                          </div>
+                        </motion.div>
+                      ) : null;
+                    })()}
+                  </AnimatePresence>
+
+                  {/* Next Button */}
+                  <button
+                    onClick={handleNext}
+                    disabled={!hasSelection()}
+                    className={`w-full py-4 rounded-[20px] transition-colors text-[17px] font-medium leading-[22px] tracking-[-0.43px] ${
+                      hasSelection()
+                        ? 'bg-[#f14e58] text-white'
+                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    }`}
+                  >
+                    Next
+                  </button>
+                </div>
+              </>
+            )}
+
+            {quizState === 'weekly-pattern' && (
+              <WeeklyPatternQuestion
+                key="weekly-pattern"
+                onContinue={() => {
+                  setQuizState('weekly-feedback');
+                }}
+                onBack={() => {
+                  setQuizState('quiz');
+                  setCurrentQuestionIndex(5);
+                  const prevAnswer = answers[quizQuestions[5].id];
+                  setSelectedOption(prevAnswer || (quizQuestions[5].isMultiSelect ? [] : null));
+                }}
+                onAnswer={setWeeklyPatternAnswers}
+                currentStep={progressSteps.current}
+                totalSteps={progressSteps.total}
+              />
+            )}
+
+            {quizState === 'age' && (
+              <AgeScreen
+                key="age"
+                onContinue={(age) => {
+                  setSelectedAge(age);
+                  setQuizState('personal-info');
+                }}
+                onBack={() => {
+                  setQuizState('quiz');
+                  setCurrentQuestionIndex(quizQuestions.length - 1);
+                  const prevAnswer = answers[quizQuestions[quizQuestions.length - 1].id];
+                  setSelectedOption(prevAnswer || (quizQuestions[quizQuestions.length - 1].isMultiSelect ? [] : null));
+                }}
+                currentStep={progressSteps.current}
+                totalSteps={progressSteps.total}
+                initialAge={selectedAge || undefined}
+              />
+            )}
+
+            {quizState === 'personal-info' && (
+              <PersonalInfoScreen
+                key="personal-info"
+                onContinue={(data) => {
+                  setPersonalInfo(data);
+                  setQuizState('greeting-loading');
+                }}
+                onBack={() => {
+                  setQuizState('age');
+                }}
+                currentStep={progressSteps.current}
+                totalSteps={progressSteps.total}
+                initialData={personalInfo || undefined}
+              />
+            )}
+          </div>
+        </div>
       )}
     </div>
   );

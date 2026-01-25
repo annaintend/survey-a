@@ -101,136 +101,139 @@ export function AnalysisCompleteScreen({ onContinue, answers }: AnalysisComplete
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.15 }}
-      className="min-h-screen bg-gradient-to-b from-[#f2f2f7] to-[#90C7FE] flex flex-col"
+      className="fixed inset-0 bg-gradient-to-b from-[#f2f2f7] to-[#90C7FE] flex items-center justify-center"
     >
-      <div className="flex-1 flex flex-col px-6 py-12 pb-32">
-        {/* Title Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 5 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.05, duration: 0.2 }}
-          className="text-center mb-8"
-        >
-          <h1 className="text-[28px] font-semibold leading-[120%] tracking-[0.4px] text-black mb-4">
-            Reach your goal<br /><span className="text-[#0a84ff]">2x faster</span>
-          </h1>
-          <p className="text-[16px] font-medium leading-[22px] tracking-[-0.43px] text-[rgba(60,60,67,0.6)] font-bold font-normal">
-            These blood sugar stability results were used to build your personalized plan
-          </p>
-        </motion.div>
-
-        {/* Main Score Card */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.1, duration: 0.2 }}
-          className="bg-white rounded-[40px] mb-6 pt-[24px] pr-[24px] pb-[0px] pl-[24px]"
-        >
-          {/* Score Header */}
-          <div className="mb-4">
-            <p className="text-[20px] font-semibold leading-[28px] tracking-[-0.26px] text-black mb-3">
-              Blood Sugar Stability Score
+      {/* Content Wrapper - Centered with max-width */}
+      <div className="w-full max-w-[430px] h-full flex flex-col relative">
+        <div className="flex-1 flex flex-col px-6 py-12 pb-32">
+          {/* Title Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05, duration: 0.2 }}
+            className="text-center mb-8"
+          >
+            <h1 className="text-[28px] font-semibold leading-[120%] tracking-[0.4px] text-black mb-4">
+              Reach your goal<br /><span className="text-[#0a84ff]">2x faster</span>
+            </h1>
+            <p className="text-[16px] font-medium leading-[22px] tracking-[-0.43px] text-[rgba(60,60,67,0.6)] font-bold font-normal">
+              These blood sugar stability results were used to build your personalized plan
             </p>
-            <div className="text-[48px] font-semibold leading-[120%] tracking-[0.4px] text-[rgb(241,78,88)]">
-              {score}
-              <span className="text-[24px] text-[rgba(158,158,179,0.6)]"> / 100</span>
-            </div>
-          </div>
+          </motion.div>
 
-          {/* Bar Chart Visualization */}
-          <div className="relative mb-6">
-            {/* Safety Line */}
-            <div className="absolute top-[20%] left-0 right-0 border-t-2 border-dashed border-[rgba(60,60,67,0.2)] z-10 text-[rgb(158,158,179)]">
-              <span className="absolute right-0 -top-5 text-[12px] font-medium text-[rgba(158,158,179,0.7)]">
-                Stability zone
+          {/* Main Score Card */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.1, duration: 0.2 }}
+            className="bg-white rounded-[40px] mb-6 pt-[24px] pr-[24px] pb-[0px] pl-[24px]"
+          >
+            {/* Score Header */}
+            <div className="mb-4">
+              <p className="text-[20px] font-semibold leading-[28px] tracking-[-0.26px] text-black mb-3">
+                Blood Sugar Stability Score
+              </p>
+              <div className="text-[48px] font-semibold leading-[120%] tracking-[0.4px] text-[rgb(241,78,88)]">
+                {score}
+                <span className="text-[24px] text-[rgba(158,158,179,0.6)]"> / 100</span>
+              </div>
+            </div>
+
+            {/* Bar Chart Visualization */}
+            <div className="relative mb-6">
+              {/* Safety Line */}
+              <div className="absolute top-[20%] left-0 right-0 border-t-2 border-dashed border-[rgba(60,60,67,0.2)] z-10 text-[rgb(158,158,179)]">
+                <span className="absolute right-0 -top-5 text-[12px] font-medium text-[rgba(158,158,179,0.7)]">
+                  Stability zone
+                </span>
+              </div>
+
+              {/* Bars Container */}
+              <div className="flex items-end justify-center gap-8 h-[200px] pt-8">
+                {/* Your Score Bar */}
+                <div className="flex flex-col items-center gap-2">
+                  <motion.div
+                    initial={{ height: 0 }}
+                    animate={{ height: `${(score / 100) * 160}px` }}
+                    transition={{ delay: 0.2, duration: 0.4, ease: "easeOut" }}
+                    className="w-[80px] bg-gradient-to-b from-[#f14e58] to-[#ff6b6b] rounded-[16px] relative flex items-start justify-center pt-3"
+                  >
+                    <span className="text-white font-semibold text-[16px]">{score}</span>
+                  </motion.div>
+                  <span className="text-[13px] font-medium text-[rgb(158,158,179)]">Your Score</span>
+                </div>
+
+                {/* Average Score Bar */}
+                <div className="flex flex-col items-center gap-2">
+                  <motion.div
+                    initial={{ height: 0 }}
+                    animate={{ height: `${(averageScore / 100) * 160}px` }}
+                    transition={{ delay: 0.3, duration: 0.4, ease: "easeOut" }}
+                    className="w-[80px] bg-gradient-to-b from-[#0a84ff] to-[#0a84ff] rounded-[16px] relative flex items-start justify-center pt-3"
+                  >
+                    <span className="text-white font-semibold text-[16px]">{averageScore}</span>
+                  </motion.div>
+                  <span className="text-[13px] font-medium text-[rgb(158,158,179)]">Average Score</span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Insight Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.2 }}
+            className="bg-white rounded-[40px] p-6 mb-4"
+          >
+            <div className="mb-3">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#0a84ff]/10 text-[#0a84ff] rounded-full text-[13px] font-medium">
+                <Lightbulb className="w-3.5 h-3.5" />
+                {getStabilityZoneLabel()}
               </span>
             </div>
-
-            {/* Bars Container */}
-            <div className="flex items-end justify-center gap-8 h-[200px] pt-8">
-              {/* Your Score Bar */}
-              <div className="flex flex-col items-center gap-2">
-                <motion.div
-                  initial={{ height: 0 }}
-                  animate={{ height: `${(score / 100) * 160}px` }}
-                  transition={{ delay: 0.2, duration: 0.4, ease: "easeOut" }}
-                  className="w-[80px] bg-gradient-to-b from-[#f14e58] to-[#ff6b6b] rounded-[16px] relative flex items-start justify-center pt-3"
-                >
-                  <span className="text-white font-semibold text-[16px]">{score}</span>
-                </motion.div>
-                <span className="text-[13px] font-medium text-[rgb(158,158,179)]">Your Score</span>
+            <p className="text-[15px] leading-[22px] tracking-[-0.24px] text-[rgba(60,60,67,0.8)] mb-4">
+              {getInsight()}
+            </p>
+            {improvement > 0 && (
+              <div className="flex items-center gap-2 pt-3 border-t border-[rgba(60,60,67,0.1)]">
+                <span className="text-[#34c759] text-[20px]">↗</span>
+                <span className="text-[14px] font-semibold text-[#34c759]">
+                  +{improvement} points of improvement potential
+                </span>
               </div>
+            )}
+          </motion.div>
 
-              {/* Average Score Bar */}
-              <div className="flex flex-col items-center gap-2">
-                <motion.div
-                  initial={{ height: 0 }}
-                  animate={{ height: `${(averageScore / 100) * 160}px` }}
-                  transition={{ delay: 0.3, duration: 0.4, ease: "easeOut" }}
-                  className="w-[80px] bg-gradient-to-b from-[#0a84ff] to-[#0a84ff] rounded-[16px] relative flex items-start justify-center pt-3"
-                >
-                  <span className="text-white font-semibold text-[16px]">{averageScore}</span>
-                </motion.div>
-                <span className="text-[13px] font-medium text-[rgb(158,158,179)]">Average Score</span>
-              </div>
-            </div>
-          </div>
-        </motion.div>
+          {/* Disclaimer */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.2 }}
+            className="text-center mb-6 px-4"
+          >
+            <p className="text-[12px] leading-[16px] tracking-[-0.08px] text-[rgba(60,60,67,0.5)]">
+              This score is not a medical diagnosis.<br />
+              It's a lifestyle-based estimate using behavioral patterns.
+            </p>
+          </motion.div>
+        </div>
 
-        {/* Insight Card */}
+        {/* Fixed CTA Button */}
         <motion.div
-          initial={{ opacity: 0, y: 5 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.2 }}
-          className="bg-white rounded-[40px] p-6 mb-4"
+          transition={{ delay: 0.6, duration: 0.2 }}
+          className="absolute bottom-0 left-0 right-0 bg-gradient-to-b from-transparent to-[#90C7FE] pb-3 pt-4 px-6"
         >
-          <div className="mb-3">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#0a84ff]/10 text-[#0a84ff] rounded-full text-[13px] font-medium">
-              <Lightbulb className="w-3.5 h-3.5" />
-              {getStabilityZoneLabel()}
-            </span>
-          </div>
-          <p className="text-[15px] leading-[22px] tracking-[-0.24px] text-[rgba(60,60,67,0.8)] mb-4">
-            {getInsight()}
-          </p>
-          {improvement > 0 && (
-            <div className="flex items-center gap-2 pt-3 border-t border-[rgba(60,60,67,0.1)]">
-              <span className="text-[#34c759] text-[20px]">↗</span>
-              <span className="text-[14px] font-semibold text-[#34c759]">
-                +{improvement} points of improvement potential
-              </span>
-            </div>
-          )}
-        </motion.div>
-
-        {/* Disclaimer */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.2 }}
-          className="text-center mb-6 px-4"
-        >
-          <p className="text-[12px] leading-[16px] tracking-[-0.08px] text-[rgba(60,60,67,0.5)]">
-            This score is not a medical diagnosis.<br />
-            It's a lifestyle-based estimate using behavioral patterns.
-          </p>
+          <button
+            onClick={onContinue}
+            className="w-full py-4 rounded-[20px] bg-[#f14e58] text-white text-[17px] font-medium leading-[22px] tracking-[-0.43px]"
+          >
+            Got it! Show more insights
+          </button>
         </motion.div>
       </div>
-
-      {/* Fixed CTA Button */}
-      <motion.div
-        initial={{ opacity: 0, y: 5 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6, duration: 0.2 }}
-        className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-gradient-to-b from-transparent to-[#90C7FE] pb-3 pt-4 px-6"
-      >
-        <button
-          onClick={onContinue}
-          className="w-full py-4 rounded-[20px] bg-[#f14e58] text-white text-[17px] font-medium leading-[22px] tracking-[-0.43px]"
-        >
-          Got it! Show more insights
-        </button>
-      </motion.div>
     </motion.div>
   );
 }

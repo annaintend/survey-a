@@ -39,10 +39,10 @@ export function PlanBuiltScreen({ onComplete, firstName, onBack }: PlanBuiltScre
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="min-h-screen relative flex flex-col bg-[#f2f2f7]"
+      className="fixed inset-0 flex items-center justify-center overflow-hidden"
     >
-      {/* Layered Sunset Background */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-b from-[#87CEEB] to-[#87CEEB]">
+      {/* Layered Sunset Background - Full Viewport */}
+      <div className="fixed inset-0 z-0 bg-gradient-to-b from-[#87CEEB] to-[#87CEEB]">
         {/* Sky gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#B0E0F6] via-[#87CEEB] to-[#5DADE2]" />
         
@@ -209,132 +209,135 @@ export function PlanBuiltScreen({ onComplete, firstName, onBack }: PlanBuiltScre
         <div className="absolute bottom-0 left-0 right-0 h-[60%] bg-gradient-to-b from-transparent via-[#f2f2f7]/80 to-[#f2f2f7]" />
       </div>
 
-      {/* Back Button - Fixed Header */}
-      <div className="bg-transparent sticky top-0 z-20">
-        <div className="h-[44px] relative flex items-center justify-center px-4">
-          <button
-            onClick={onBack}
-            className="absolute left-4 bg-white rounded-full w-[34px] h-[34px] flex items-center justify-center"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
+      {/* Content Wrapper - Centered with max-width */}
+      <div className="relative z-10 w-full max-w-[430px] h-full flex flex-col">
+        {/* Back Button - Fixed Header */}
+        <div className="bg-transparent sticky top-0 z-20">
+          <div className="h-[44px] relative flex items-center justify-center px-4">
+            <button
+              onClick={onBack}
+              className="absolute left-4 bg-white rounded-full w-[34px] h-[34px] flex items-center justify-center"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/* Content - Scrollable */}
-      <div className="relative z-10 flex-1 flex flex-col items-center px-6 pb-32">
-        {/* Title */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className="text-center mb-12 mt-4"
-        >
-          <h1 className="text-[28px] font-semibold leading-[120%] tracking-[0.4px] text-black mb-4">
-            Let's make it<br />
-            <span className="text-[#F14E58]">Day 1</span>
-          </h1>
-          <p className="text-[16px] font-medium leading-[22px] tracking-[-0.43px] text-[rgba(60,60,67,0.6)] font-normal">
-            There's no perfect time to start. Doing small steps, start just now.
-          </p>
-        </motion.div>
-
-        {/* Streak Card */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5, duration: 0.6 }}
-          className="w-full max-w-[340px] relative"
-        >
-          {/* Flying celebration stars */}
-          {showCelebration && (
-            <>
-              {[...Array(12)].map((_, i) => (
-                <motion.div
-                  key={`celebrate-star-${i}`}
-                  initial={{ 
-                    x: 0, 
-                    y: 0, 
-                    scale: 0,
-                    opacity: 0,
-                  }}
-                  animate={{ 
-                    x: Math.cos((i / 12) * Math.PI * 2) * 150,
-                    y: Math.sin((i / 12) * Math.PI * 2) * 150,
-                    scale: [0, 1.5, 0],
-                    opacity: [0, 1, 0],
-                    rotate: [0, 360]
-                  }}
-                  transition={{
-                    duration: 1.5,
-                    ease: "easeOut"
-                  }}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20"
-                >
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path 
-                      d="M10 0L11.545 8.455L20 10L11.545 11.545L10 20L8.455 11.545L0 10L8.455 8.455L10 0Z" 
-                      fill="#FFD700" 
-                    />
-                  </svg>
-                </motion.div>
-              ))}
-            </>
-          )}
-
-          {/* Sparkle Icon */}
+        {/* Content - Scrollable */}
+        <div className="flex-1 flex flex-col items-center px-6 pb-32">
+          {/* Title */}
           <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.8, duration: 0.4 }}
-            className="absolute -top-2 -right-2 z-10"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="text-center mb-12 mt-4"
           >
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-              <path
-                d="M24 0L26.472 17.528L36 12L30.472 21.528L48 24L30.472 26.472L36 36L26.472 30.472L24 48L21.528 30.472L12 36L17.528 26.472L0 24L17.528 21.528L12 12L21.528 17.528L24 0Z"
-                fill="#f14e58"
-              />
-            </svg>
+            <h1 className="text-[28px] font-semibold leading-[120%] tracking-[0.4px] text-black mb-4">
+              Let's make it<br />
+              <span className="text-[#F14E58]">Day 1</span>
+            </h1>
+            <p className="text-[16px] font-medium leading-[22px] tracking-[-0.43px] text-[rgba(60,60,67,0.6)] font-normal">
+              There's no perfect time to start. Doing small steps, start just now.
+            </p>
           </motion.div>
 
-          {/* Card */}
-          <div className="bg-gradient-to-br from-[#ff006e] via-[#ff3d6f] to-[#ff5733] p-6 shadow-lg rounded-t-[40px] rounded-b-[0px]">
-            {/* Header with Logo and Book Icon */}
-            <div className="flex items-center justify-end mb-32">
-              <img src={logoImage} alt="#sugar.no" className="h-[32px] w-auto" />
-            </div>
+          {/* Streak Card */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
+            className="w-full max-w-[340px] relative"
+          >
+            {/* Flying celebration stars */}
+            {showCelebration && (
+              <>
+                {[...Array(12)].map((_, i) => (
+                  <motion.div
+                    key={`celebrate-star-${i}`}
+                    initial={{ 
+                      x: 0, 
+                      y: 0, 
+                      scale: 0,
+                      opacity: 0,
+                    }}
+                    animate={{ 
+                      x: Math.cos((i / 12) * Math.PI * 2) * 150,
+                      y: Math.sin((i / 12) * Math.PI * 2) * 150,
+                      scale: [0, 1.5, 0],
+                      opacity: [0, 1, 0],
+                      rotate: [0, 360]
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      ease: "easeOut"
+                    }}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-20"
+                  >
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path 
+                        d="M10 0L11.545 8.455L20 10L11.545 11.545L10 20L8.455 11.545L0 10L8.455 8.455L10 0Z" 
+                        fill="#FFD700" 
+                      />
+                    </svg>
+                  </motion.div>
+                ))}
+              </>
+            )}
 
-            {/* Active Streak */}
-            <div>
-              <p className="text-white/90 text-[14px] font-medium mb-1">Active Streak</p>
-              <p className="text-white text-[48px] font-bold leading-none mb-4">{streakDays} days</p>
-            </div>
-          </div>
+            {/* Sparkle Icon */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.8, duration: 0.4 }}
+              className="absolute -top-2 -right-2 z-10"
+            >
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                <path
+                  d="M24 0L26.472 17.528L36 12L30.472 21.528L48 24L30.472 26.472L36 36L26.472 30.472L24 48L21.528 30.472L12 36L17.528 26.472L0 24L17.528 21.528L12 12L21.528 17.528L24 0Z"
+                  fill="#f14e58"
+                />
+              </svg>
+            </motion.div>
 
-          {/* Bottom Info Card */}
-          <div className="bg-white rounded-b-[40px] -mt-4 pt-[20px] pb-[16px] px-[24px] py-[16px] pr-[24px] pl-[24px]">
-            <div className="flex items-center justify-between">
+            {/* Card */}
+            <div className="bg-gradient-to-br from-[#ff006e] via-[#ff3d6f] to-[#ff5733] p-6 shadow-lg rounded-t-[40px] rounded-b-[0px]">
+              {/* Header with Logo and Book Icon */}
+              <div className="flex items-center justify-end mb-32">
+                <img src={logoImage} alt="#sugar.no" className="h-[32px] w-auto" />
+              </div>
+
+              {/* Active Streak */}
               <div>
-                <p className="text-[rgba(60,60,67,0.6)] text-[13px] font-medium mb-1">Name</p>
-                <p className="text-black text-[20px] font-semibold">{firstName}</p>
-              </div>
-              <div className="text-right">
-                <p className="text-[rgba(60,60,67,0.6)] text-[13px] font-medium mb-1">Getting healthier since</p>
-                <p className="text-black text-[20px] font-semibold">{getCurrentDate()}</p>
+                <p className="text-white/90 text-[14px] font-medium mb-1">Active Streak</p>
+                <p className="text-white text-[48px] font-bold leading-none mb-4">{streakDays} days</p>
               </div>
             </div>
-          </div>
-        </motion.div>
-      </div>
 
-      {/* Bottom Button Section - Fixed */}
-      <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[rgba(242,242,247,0)] pb-3 pt-4 px-6 z-20">
-        <button
-          onClick={onComplete}
-          className="w-full py-4 rounded-[20px] bg-[#f14e58] text-white text-[17px] font-medium leading-[22px] tracking-[-0.43px] transition-all active:scale-[0.98]"
-        >
-          Yes, I'm ready to start journey!
-        </button>
+            {/* Bottom Info Card */}
+            <div className="bg-white rounded-b-[40px] -mt-4 pt-[20px] pb-[16px] px-[24px] py-[16px] pr-[24px] pl-[24px]">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-[rgba(60,60,67,0.6)] text-[13px] font-medium mb-1">Name</p>
+                  <p className="text-black text-[20px] font-semibold">{firstName}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-[rgba(60,60,67,0.6)] text-[13px] font-medium mb-1">Getting healthier since</p>
+                  <p className="text-black text-[20px] font-semibold">{getCurrentDate()}</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Bottom Button Section - Fixed */}
+        <div className="absolute bottom-0 left-0 right-0 bg-[rgba(242,242,247,0)] pb-3 pt-4 px-6 z-20">
+          <button
+            onClick={onComplete}
+            className="w-full py-4 rounded-[20px] bg-[#f14e58] text-white text-[17px] font-medium leading-[22px] tracking-[-0.43px] transition-all active:scale-[0.98]"
+          >
+            Yes, I'm ready to start journey!
+          </button>
+        </div>
       </div>
     </motion.div>
   );

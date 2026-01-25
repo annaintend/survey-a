@@ -76,7 +76,7 @@ export function WeeklyPatternQuestion({ onContinue, onBack, onAnswer, currentSte
       {/* Content */}
       <div className="flex-1 overflow-y-auto px-6 pb-6">
         <div className="mb-8 mt-3">
-          <h1 className="text-[28px] font-semibold leading-[120%] tracking-[0.4px] text-black text-left">
+          <h1 className="text-[28px] font-semibold leading-[120%] tracking-[0.4px] text-black text-center">
             Let's find out<br /><span className="text-[#0a84ff]">your pattern</span>
           </h1>
         </div>
@@ -159,7 +159,7 @@ export function WeeklyPatternQuestion({ onContinue, onBack, onAnswer, currentSte
       </div>
 
       {/* Bottom Button Section */}
-      <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-[#f2f2f7] pb-3 pt-4 px-6">
+      <div className="absolute bottom-0 left-0 right-0 bg-[#f2f2f7] pb-3 pt-4 px-6">
         <motion.button
           onClick={handleNext}
           disabled={!hasValidSelection}

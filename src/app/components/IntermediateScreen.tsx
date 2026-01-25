@@ -209,107 +209,110 @@ function GraphFrame() {
 
 export function IntermediateScreen({ onContinue, onBack, currentStep, totalSteps }: IntermediateScreenProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#f2f2f7] to-[#90C7FE] flex flex-col">
-      {/* Header with Back Button */}
-      <div className="bg-transparent sticky top-0 z-10">
-        <div className="h-[44px] relative flex items-center justify-center px-4">
-          <button
-            onClick={onBack}
-            className="absolute left-4 bg-white rounded-full w-[34px] h-[34px] flex items-center justify-center"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <div className="flex items-center justify-center">
-            <ProgressBar current={currentStep} total={totalSteps} />
+    <div className="fixed inset-0 bg-gradient-to-b from-[#f2f2f7] to-[#90C7FE] flex items-center justify-center">
+      {/* Content Wrapper - Centered with max-width */}
+      <div className="w-full max-w-[430px] h-full flex flex-col relative">
+        {/* Header with Back Button */}
+        <div className="bg-transparent sticky top-0 z-10">
+          <div className="h-[44px] relative flex items-center justify-center px-4">
+            <button
+              onClick={onBack}
+              className="absolute left-4 bg-white rounded-full w-[34px] h-[34px] flex items-center justify-center"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <div className="flex items-center justify-center">
+              <ProgressBar current={currentStep} total={totalSteps} />
+            </div>
           </div>
         </div>
-      </div>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="flex-1 pb-32 px-6"
-      >
-        <div className="mb-8">
-          <h1 className="text-[28px] font-semibold leading-[120%] tracking-[0.4px] text-black mb-4 text-center">
-            See how #sugarno can <span className="text-[#0a84ff]">change your body</span>
-          </h1>
-        </div>
-
-        <div className="mb-6">
-          {/* Graph with background */}
-          <motion.div 
-            className="bg-white rounded-[40px] px-[16px] py-[24px] pt-[16px] pr-[16px] pb-[24px] flex justify-center"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-          >
-            <motion.div 
-              className="flex flex-col gap-[12px] items-center pt-[49px]"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            >
-              <GraphFrame />
-              {/* X-axis labels */}
-              <div className="flex items-start justify-between w-[306px] text-[13px] font-semibold leading-[18px] text-black text-center tracking-[-0.08px]">
-                <p>Day 1</p>
-                <p>Day 30</p>
-              </div>
-            
-            {/* Timeline items without connecting line - just icons */}
-            <div className="space-y-4 mt-6 w-full">
-              <div className="flex items-start gap-4 px-[8px] py-[0px]">
-                <div className="text-[20px] shrink-0">👣</div>
-                <div className="flex-1">
-                  <div className="text-[17px] font-semibold text-[rgb(10,132,255)] mb-1">3 Days</div>
-                  <div className="text-[15px] font-normal leading-[20px] tracking-[-0.43px] text-black">
-                    Fewer sudden energy crashes
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-4 px-[8px] py-[0px]">
-                <div className="text-[20px] shrink-0">🧗🏼</div>
-                <div className="flex-1">
-                  <div className="text-[17px] font-semibold text-[rgb(10,132,255)] mb-1">7 Days</div>
-                  <div className="text-[15px] font-normal leading-[20px] tracking-[-0.43px] text-black">
-                    More predictable energy throughout the day
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex items-start gap-4 px-[8px] py-[0px]">
-                <div className="text-[20px] shrink-0">🗻</div>
-                <div className="flex-1">
-                  <div className="text-[17px] font-semibold text-[rgb(10,132,255)] mb-1">30 Days</div>
-                  <div className="text-[15px] font-normal leading-[20px] tracking-[-0.43px] text-black">
-                    Clear understanding of your personal patterns
-                  </div>
-                </div>
-              </div>
-            </div>
-            </motion.div>
-          </motion.div>
-        </div>
-
-        <div className="mb-6">
-          <p className="text-[13px] leading-[20px] tracking-[-0.43px] text-[rgba(255,255,255,0.85)] text-center font-bold font-normal">
-            Based on scientific data, blood sugar responses become more predictable within the first week.
-            As patterns emerge, energy crashes decrease and food decisions require less effort.
-          </p>
-        </div>
-      </motion.div>
-
-      {/* Fixed Bottom Button Section */}
-      <div className="fixed bottom-0 left-0 right-0 max-w-[430px] mx-auto bg-gradient-to-b from-transparent to-[#90C7FE] pb-2 pt-4 px-6">
-        <button
-          onClick={onContinue}
-          className="w-full bg-[#f14e58] text-white py-4 rounded-[20px] text-[17px] font-medium leading-[22px] tracking-[-0.43px]"
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="flex-1 overflow-y-auto pb-32 px-6"
         >
-          Continue
-        </button>
+          <div className="mb-8">
+            <h1 className="text-[28px] font-semibold leading-[120%] tracking-[0.4px] text-black mb-4 text-center">
+              See how #sugarno can <span className="text-[#0a84ff]">change your body</span>
+            </h1>
+          </div>
+
+          <div className="mb-6">
+            {/* Graph with background */}
+            <motion.div 
+              className="bg-white rounded-[40px] px-[16px] py-[24px] pt-[16px] pr-[16px] pb-[24px] flex justify-center"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <motion.div 
+                className="flex flex-col gap-[12px] items-center pt-[49px]"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+              >
+                <GraphFrame />
+                {/* X-axis labels */}
+                <div className="flex items-start justify-between w-[306px] text-[13px] font-semibold leading-[18px] text-black text-center tracking-[-0.08px]">
+                  <p>Day 1</p>
+                  <p>Day 30</p>
+                </div>
+              
+                {/* Timeline items without connecting line - just icons */}
+                <div className="space-y-4 mt-6 w-full">
+                  <div className="flex items-start gap-4 px-[8px] py-[0px]">
+                    <div className="text-[20px] shrink-0">👣</div>
+                    <div className="flex-1">
+                      <div className="text-[17px] font-semibold text-[rgb(10,132,255)] mb-1">3 Days</div>
+                      <div className="text-[15px] font-normal leading-[20px] tracking-[-0.43px] text-black">
+                        Fewer sudden energy crashes
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-4 px-[8px] py-[0px]">
+                    <div className="text-[20px] shrink-0">🧗🏼</div>
+                    <div className="flex-1">
+                      <div className="text-[17px] font-semibold text-[rgb(10,132,255)] mb-1">7 Days</div>
+                      <div className="text-[15px] font-normal leading-[20px] tracking-[-0.43px] text-black">
+                        More predictable energy throughout the day
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-4 px-[8px] py-[0px]">
+                    <div className="text-[20px] shrink-0">🗻</div>
+                    <div className="flex-1">
+                      <div className="text-[17px] font-semibold text-[rgb(10,132,255)] mb-1">30 Days</div>
+                      <div className="text-[15px] font-normal leading-[20px] tracking-[-0.43px] text-black">
+                        Clear understanding of your personal patterns
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
+
+          <div className="mb-6">
+            <p className="text-[13px] leading-[20px] tracking-[-0.43px] text-[rgba(0,0,0,0.85)] text-center font-bold font-normal">
+              Based on scientific data, blood sugar responses become more predictable within the first week.
+              As patterns emerge, energy crashes decrease and food decisions require less effort.
+            </p>
+          </div>
+        </motion.div>
+
+        {/* Fixed Bottom Button Section */}
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-b from-transparent to-[#90C7FE] pb-2 pt-4 px-6">
+          <button
+            onClick={onContinue}
+            className="w-full bg-[#f14e58] text-white py-4 rounded-[20px] text-[17px] font-medium leading-[22px] tracking-[-0.43px]"
+          >
+            Continue
+          </button>
+        </div>
       </div>
     </div>
   );

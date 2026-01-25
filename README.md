@@ -1,7 +1,7 @@
 
-  # Sugar focus
+  # survey/a
 
-  This is a code bundle for Sugar focus. The original project is available at https://www.figma.com/design/RSKX732AGbiyul5pLQtVnX/Sugar-focus.
+  This is a code bundle for survey/a. The original project is available at https://www.figma.com/design/RSKX732AGbiyul5pLQtVnX/survey-a.
 
   ## Running the code
 

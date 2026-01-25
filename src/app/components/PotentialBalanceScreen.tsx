@@ -254,144 +254,146 @@ export function PotentialBalanceScreen({ onContinue, onBack, answers }: Potentia
   ];
 
   return (
-    <div className="fixed inset-0 bg-[#f2f2f7] flex flex-col">
-      {/* Fixed Header */}
-      <div className="flex-shrink-0 px-4 pt-[0px] pr-[16px] pb-[0px] pl-[4px]">
-        <div className="h-[44px] relative flex items-center justify-center">
-          <button
-            onClick={onBack}
-            className="absolute left-4 bg-white rounded-full w-[34px] h-[34px] flex items-center justify-center active:scale-95 transition-transform"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
+    <div className="fixed inset-0 bg-[#f2f2f7] flex items-center justify-center">
+      <div className="w-full max-w-[430px] h-full bg-[#f2f2f7] flex flex-col relative">
+        {/* Fixed Header */}
+        <div className="flex-shrink-0 px-4 pt-[0px] pr-[16px] pb-[0px] pl-[4px]">
+          <div className="h-[44px] relative flex items-center justify-center">
+            <button
+              onClick={onBack}
+              className="absolute left-4 bg-white rounded-full w-[34px] h-[34px] flex items-center justify-center active:scale-95 transition-transform"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/* Scrollable Content */}
-      <div ref={scrollContainerRef} className="flex-1 overflow-y-auto px-6 pb-24">
-        {/* Title Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="pt-2 pb-6"
-        >
-          <h1 className="text-[28px] font-semibold leading-[120%] tracking-[0.4px] text-black mb-4 text-center">
-            Your health profile{' '}
-            <span className="text-[#34c759]">in 30 days</span>
-          </h1>
-          <p className="text-[16px] font-normal leading-[22px] tracking-[-0.43px] text-[rgba(60,60,67,0.6)] text-center">
-            New year, new you! Let's make that glow up!
-          </p>
-        </motion.div>
+        {/* Scrollable Content */}
+        <div ref={scrollContainerRef} className="flex-1 overflow-y-auto px-6 pb-24">
+          {/* Title Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="pt-2 pb-6"
+          >
+            <h1 className="text-[28px] font-semibold leading-[120%] tracking-[0.4px] text-black mb-4 text-center">
+              Your health profile{' '}
+              <span className="text-[#34c759]">in 30 days</span>
+            </h1>
+            <p className="text-[16px] font-normal leading-[22px] tracking-[-0.43px] text-[rgba(60,60,67,0.6)] text-center">
+              New year, new you! Let's make that glow up!
+            </p>
+          </motion.div>
 
-        {/* Score Cards */}
-        <div className="grid grid-cols-2 gap-3">
-          {scoreCards.map((card, index) => {
-            const improvement = card.potential - card.current;
-            
-            return (
-              <motion.div
-                key={card.label}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.08, duration: 0.4 }}
-                className={`rounded-[32px] p-5 ${
-                  card.isMain
-                    ? 'col-span-2 bg-gradient-to-br from-[#34c759] to-[#30d158]'
-                    : 'bg-white'
-                }`}
-              >
-                <div className="text-center">
-                  {/* Label with emoji */}
-                  <div className="flex items-center justify-center gap-2 mb-2">
-                    <span className="text-[20px]">{card.emoji}</span>
+          {/* Score Cards */}
+          <div className="grid grid-cols-2 gap-3">
+            {scoreCards.map((card, index) => {
+              const improvement = card.potential - card.current;
+              
+              return (
+                <motion.div
+                  key={card.label}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: index * 0.08, duration: 0.4 }}
+                  className={`rounded-[32px] p-5 ${
+                    card.isMain
+                      ? 'col-span-2 bg-gradient-to-br from-[#34c759] to-[#30d158]'
+                      : 'bg-white'
+                  }`}
+                >
+                  <div className="text-center">
+                    {/* Label with emoji */}
+                    <div className="flex items-center justify-center gap-2 mb-2">
+                      <span className="text-[20px]">{card.emoji}</span>
+                      <p
+                        className={`text-[13px] font-medium leading-[18px] tracking-[-0.08px] ${
+                          card.isMain ? 'text-white/90' : 'text-[rgba(60,60,67,0.6)]'
+                        }`}
+                      >
+                        {card.label}
+                      </p>
+                    </div>
+
+                    {/* Score and improvement */}
+                    <div className="flex items-center justify-center gap-2 mb-1">
+                      <div className={`text-[40px] font-semibold leading-[120%] tracking-[0.4px] ${
+                        card.isMain ? 'text-white' : 'text-black'
+                      }`}>
+                        {card.potential}
+                      </div>
+                      <div className={`px-2 py-1 rounded-full text-[13px] font-semibold ${
+                        card.isMain 
+                          ? 'bg-white/20 text-white' 
+                          : 'bg-[#34c759]/10 text-[#34c759]'
+                      }`}>
+                        +{improvement}
+                      </div>
+                    </div>
+
                     <p
-                      className={`text-[13px] font-medium leading-[18px] tracking-[-0.08px] ${
-                        card.isMain ? 'text-white/90' : 'text-[rgba(60,60,67,0.6)]'
+                      className={`text-[13px] font-medium leading-[18px] tracking-[-0.08px] mb-4 ${
+                        card.isMain ? 'text-white/70' : 'text-[rgba(60,60,67,0.4)]'
                       }`}
                     >
-                      {card.label}
+                      out of 100
                     </p>
-                  </div>
 
-                  {/* Score and improvement */}
-                  <div className="flex items-center justify-center gap-2 mb-1">
-                    <div className={`text-[40px] font-semibold leading-[120%] tracking-[0.4px] ${
-                      card.isMain ? 'text-white' : 'text-black'
-                    }`}>
-                      {card.potential}
-                    </div>
-                    <div className={`px-2 py-1 rounded-full text-[13px] font-semibold ${
-                      card.isMain 
-                        ? 'bg-white/20 text-white' 
-                        : 'bg-[#34c759]/10 text-[#34c759]'
-                    }`}>
-                      +{improvement}
-                    </div>
-                  </div>
-
-                  <p
-                    className={`text-[13px] font-medium leading-[18px] tracking-[-0.08px] mb-4 ${
-                      card.isMain ? 'text-white/70' : 'text-[rgba(60,60,67,0.4)]'
-                    }`}
-                  >
-                    out of 100
-                  </p>
-
-                  {/* Progress Bar */}
-                  <div
-                    className={`h-2 rounded-full overflow-hidden ${
-                      card.isMain ? 'bg-white/20' : 'bg-[rgba(60,60,67,0.1)]'
-                    }`}
-                  >
-                    <motion.div
-                      initial={{ width: `${card.current}%` }}
-                      animate={{ width: `${card.potential}%` }}
-                      transition={{ delay: index * 0.08 + 0.5, duration: 1.2, ease: 'easeOut' }}
-                      className={`h-full rounded-full ${
-                        card.isMain
-                          ? 'bg-white'
-                          : 'bg-gradient-to-r from-[#34c759] to-[#30d158]'
+                    {/* Progress Bar */}
+                    <div
+                      className={`h-2 rounded-full overflow-hidden ${
+                        card.isMain ? 'bg-white/20' : 'bg-[rgba(60,60,67,0.1)]'
                       }`}
-                    />
+                    >
+                      <motion.div
+                        initial={{ width: `${card.current}%` }}
+                        animate={{ width: `${card.potential}%` }}
+                        transition={{ delay: index * 0.08 + 0.5, duration: 1.2, ease: 'easeOut' }}
+                        className={`h-full rounded-full ${
+                          card.isMain
+                            ? 'bg-white'
+                            : 'bg-gradient-to-r from-[#34c759] to-[#30d158]'
+                        }`}
+                      />
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            );
-          })}
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Encouragement Card */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.5 }}
+            className="mt-6 bg-white rounded-[20px] p-5"
+          >
+            <div className="flex items-start gap-3">
+              <div className="text-[24px] flex-shrink-0">🎯</div>
+              <div>
+                <p className="text-[15px] leading-[22px] tracking-[-0.24px] text-[rgba(60,60,67,0.8)]">
+                  These improvements are{' '}
+                  <span className="font-semibold text-black">
+                    realistic and achievable
+                  </span>
+                  {' '}with proper awareness and feedback. Most people see meaningful changes within the first 2-4 weeks.
+                </p>
+              </div>
+            </div>
+          </motion.div>
         </div>
 
-        {/* Encouragement Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.5 }}
-          className="mt-6 bg-white rounded-[20px] p-5"
-        >
-          <div className="flex items-start gap-3">
-            <div className="text-[24px] flex-shrink-0">🎯</div>
-            <div>
-              <p className="text-[15px] leading-[22px] tracking-[-0.24px] text-[rgba(60,60,67,0.8)]">
-                These improvements are{' '}
-                <span className="font-semibold text-black">
-                  realistic and achievable
-                </span>
-                {' '}with proper awareness and feedback. Most people see meaningful changes within the first 2-4 weeks.
-              </p>
-            </div>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Fixed Bottom Button */}
-      <div className="absolute bottom-0 left-0 right-0 bg-[#f2f2f7] pb-6 pt-4 px-6">
-        <button
-          onClick={onContinue}
-          className="w-full py-4 rounded-[20px] bg-[#f14e58] text-white text-[17px] font-medium leading-[22px] tracking-[-0.43px] active:scale-[0.98] transition-transform"
-        >
-          Let's do this!
-        </button>
+        {/* Fixed Bottom Button */}
+        <div className="absolute bottom-0 left-0 right-0 bg-[#f2f2f7] pb-6 pt-4 px-6">
+          <button
+            onClick={onContinue}
+            className="w-full py-4 rounded-[20px] bg-[#f14e58] text-white text-[17px] font-medium leading-[22px] tracking-[-0.43px] active:scale-[0.98] transition-transform"
+          >
+            Let's do this!
+          </button>
+        </div>
       </div>
     </div>
   );
