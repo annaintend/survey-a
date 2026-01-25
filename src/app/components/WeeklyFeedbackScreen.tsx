@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { ChevronLeft, Check } from 'lucide-react';
 import { ProgressBar } from '@/app/components/ProgressBar';
-import imgDoughnut3D from "figma:asset/05b032611d53a344beb07d44c76066a4c74f4bf5.png";
+import imgDoughnut3D from '@/assets/sugar-white.png';
 
 interface WeeklyFeedbackScreenProps {
   onContinue: () => void;
