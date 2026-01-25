@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 import svgPaths from "@/imports/svg-4jiaeetmq9";
-import heroImage from "figma:asset/900c01723b11c15f5044d4a3e9bde07381387f3a.png";
+import heroImage from "figma:asset/main-screen.png";
 
 interface WelcomeScreenProps {
   onStart: () => void;
