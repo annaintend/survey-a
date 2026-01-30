@@ -101,10 +101,10 @@ export function AnalysisCompleteScreen({ onContinue, answers }: AnalysisComplete
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.15 }}
-      className="fixed inset-0 bg-gradient-to-b from-[#f2f2f7] to-[#90C7FE] flex items-center justify-center"
+      className="fixed inset-0 bg-gradient-to-b from-[#f2f2f7] to-[#90C7FE] overflow-hidden"
     >
       {/* Content Wrapper - Centered with max-width */}
-      <div className="w-full max-w-[430px] h-full flex flex-col relative">
+      <div className="w-full max-w-[430px] h-full mx-auto flex flex-col relative">
         <div className="flex-1 overflow-y-auto px-6 py-12 pb-32">
           {/* Title Section */}
           <motion.div
