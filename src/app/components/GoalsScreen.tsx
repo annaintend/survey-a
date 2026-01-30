@@ -61,6 +61,9 @@ export function GoalsScreen({ onContinue, onBack, initialGoals = [] }: GoalsScre
   const handleContinue = () => {
     if (selectedGoals.length > 0) {
       onContinue(selectedGoals);
+      window.amplitude?.track?.("goal_selected", {
+        goal_type: selectedGoals.join(', ')
+      })
     }
   };
 

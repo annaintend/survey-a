@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ChevronLeft } from 'lucide-react';
 import svgPaths from '@/imports/svg-nanq8hh2uc';
@@ -208,6 +209,9 @@ function GraphFrame() {
 }
 
 export function IntermediateScreen({ onContinue, onBack, currentStep, totalSteps }: IntermediateScreenProps) {
+  useEffect(() => {
+    window?.amplitude?.track?.("motivation_screen_viewed")
+  }, [])
   return (
     <div className="fixed inset-0 bg-gradient-to-b from-[#f2f2f7] to-[#90C7FE] flex items-center justify-center">
       {/* Content Wrapper - Centered with max-width */}

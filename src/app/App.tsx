@@ -30,6 +30,12 @@ interface Question {
   isMultiSelect: boolean;
 }
 
+declare global {
+  interface Window {
+    amplitude: any | undefined
+  }
+}
+
 const quizQuestions: Question[] = [
   {
     id: 1,
@@ -436,6 +442,11 @@ export default function App() {
     const hasSelection = Array.isArray(selectedOption) 
       ? selectedOption.length > 0 
       : selectedOption !== null;
+  
+    window?.amplitude?.track?.("question_viewed", {
+      question_id: currentQuestionIndex,
+      context: quizState,
+    })
       
     if (hasSelection) {
       setAnswers({

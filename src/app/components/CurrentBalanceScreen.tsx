@@ -16,6 +16,8 @@ export function CurrentBalanceScreen({ onContinue, onBack, answers }: CurrentBal
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTop = 0;
     }
+
+    window?.amplitude?.track?.("final_screen_viewed")
   }, []);
 
   // Calculate scores based on answers

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { X, ChevronRight, ChevronLeft } from 'lucide-react';
 
@@ -25,6 +26,10 @@ export function PaywallScreen({ onClose, onStartTrial }: PaywallScreenProps) {
       end: formatDate(endDate),
     };
   };
+
+  useEffect(() => {
+    window?.amplitude?.track?.("plan_selection_viewed")
+  }, [])
 
   const dates = getTrialDates();
 
@@ -171,6 +176,11 @@ export function PaywallScreen({ onClose, onStartTrial }: PaywallScreenProps) {
           {/* CTA Button */}
           <button
             onClick={() => {
+              window?.amplitude?.track?.("plan_selected", {
+                plan_id: "monthly",
+                price: 9.99,
+                currency: "USD"
+              })
               window.location.href = 'https://buy.stripe.com/14AcN64lJ5DWdpdg1L93y04';
             }}
             className="w-full bg-[#f14e58] text-white py-4 rounded-[20px] text-[17px] font-medium leading-[22px] tracking-[-0.43px] flex items-center justify-center gap-2 shadow-lg active:scale-[0.98] transition-transform mb-6"

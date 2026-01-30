@@ -15,6 +15,10 @@ export function GreetingLoadingScreen({ onComplete, firstName }: GreetingLoading
     return () => clearTimeout(timer);
   }, [onComplete]);
 
+  useEffect(() => {
+    window.amplitude?.track?.("plan_generation_started")
+  }, [])
+
   return (
     <motion.div
       initial={{ opacity: 0 }}

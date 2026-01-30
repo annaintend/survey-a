@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { ChevronLeft } from 'lucide-react';
 import { ProgressBar } from '@/app/components/ProgressBar';
@@ -23,8 +23,16 @@ export function PersonalInfoScreen({ onContinue, onBack, currentStep, totalSteps
   const handleContinue = () => {
     if (isValid()) {
       onContinue({ firstName, age, email });
+      window?.amplitude?.track?.("lead_form_submitted", {
+        has_name: !!firstName.length,
+        has_email: !!email.length
+      })
     }
   };
+
+  useEffect(() => {
+    window?.amplitude?.track?.("lead_form_viewed")
+  }, [])
 
   return (
     <div className="fixed inset-0 bg-[#f2f2f7] flex items-center justify-center overflow-hidden">
