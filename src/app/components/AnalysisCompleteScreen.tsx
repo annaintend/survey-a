@@ -105,7 +105,7 @@ export function AnalysisCompleteScreen({ onContinue, answers }: AnalysisComplete
     >
       {/* Content Wrapper - Centered with max-width */}
       <div className="w-full max-w-[430px] h-full flex flex-col relative">
-        <div className="flex-1 flex flex-col px-6 py-12 pb-32">
+        <div className="flex-1 overflow-y-auto px-6 py-12 pb-32">
           {/* Title Section */}
           <motion.div
             initial={{ opacity: 0, y: 5 }}

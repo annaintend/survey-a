@@ -33,7 +33,7 @@ export function PersonalInfoScreen({ onContinue, onBack, currentStep, totalSteps
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.3 }}
-        className="w-full max-w-[430px] h-full bg-[#f2f2f7] flex flex-col relative"
+        className="w-full max-w-[430px] min-h-[100vh] min-h-[100dvh] bg-[#f2f2f7] flex flex-col relative"
       >
         {/* Header */}
         <div className="bg-[#f2f2f7] sticky top-0 z-10">
@@ -104,7 +104,7 @@ export function PersonalInfoScreen({ onContinue, onBack, currentStep, totalSteps
         </div>
 
         {/* Bottom Button Section */}
-        <div className="absolute bottom-0 left-0 right-0 bg-[#f2f2f7] pb-3 pt-4 px-6">
+        <div className="absolute bottom-0 left-0 right-0 bg-[#f2f2f7] pb-[max(12px,env(safe-area-inset-bottom))] pt-4 px-6">
           <button
             onClick={handleContinue}
             disabled={!isValid()}
