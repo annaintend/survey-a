@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { motion } from 'motion/react';
 import { ChevronLeft, Check } from 'lucide-react';
 import { ProgressBar } from '@/app/components/ProgressBar';
