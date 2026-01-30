@@ -444,8 +444,10 @@ export default function App() {
       : selectedOption !== null;
   
     window?.amplitude?.track?.("question_viewed", {
-      question_id: currentQuestionIndex,
-      context: quizState,
+      question_id: 
+        quizState === 'quiz' ? 
+          'quiz:' + quizQuestions[currentQuestionIndex].id : 
+          quizState,
     })
       
     if (hasSelection) {
@@ -461,6 +463,7 @@ export default function App() {
         // After question 6, show weekly pattern screens
         setQuizState('weekly-pattern');
       } else if (currentQuestionIndex === quizQuestions.length - 1) {
+        localStorage.setItem('answers', JSON.stringify(answers));
         // After last quiz question (question 12), show age screen
         setQuizState('age');
       } else if (currentQuestionIndex < quizQuestions.length - 1) {
@@ -596,6 +599,20 @@ export default function App() {
           onContinue={(goals) => {
             setSelectedGoals(goals);
             setQuizState('current-balance');
+            const form = new FormData();
+            for(const key in answers) {
+              form.append(`quiz_${key}`, Array.isArray(answers[key]) ? answers[key].join(', ') : answers[key]);
+            }
+            form.append('funnel_type', 'survey-a');
+            form.append('selected_goals', goals.join(', '));
+            form.append('name', personalInfo?.firstName || '');
+            form.append('email', personalInfo?.email || '');
+            form.append('age', selectedAge || '');
+            
+            fetch('https://hooks.zapier.com/hooks/catch/26016019/ulmeld4/', {
+              method: 'POST',
+              body: form,
+            });
           }}
           onBack={() => {
             setQuizState('analysis-complete');
